@@ -2,6 +2,8 @@ import * as THREE from "three";
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+
+const canvas = document.getElementById('canvas');
 const scene = new THREE.Scene();
 
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000000);
@@ -14,7 +16,7 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
-document.body.appendChild(renderer.domElement);
+canvas.appendChild(renderer.domElement);
 
 const controls = new PointerLockControls(camera, document.body);
 scene.add(controls.getObject()); 
@@ -159,6 +161,9 @@ function toRealSize(num){
   ________________________________________________________________________________________________________________________________
 */     
 
+//IMPORTANT : YOU'LL NOTICE THAT WE ARE MAKING A FEW MULTIPLICATIONS HERE, I'M DOING THIS BECAUSE A WANT PLANETS TO BE BIGGER 
+//IF YOU WANT PLANETS TO BE IN THEIR REAL SIZES, YOU NEED DELETE THAT MULTIPLICATION.
+
 //Original values are in our realValues.txt.
 
 let lightSpeed = toRealSize(300000);
@@ -290,7 +295,6 @@ const controlsMoveRight = (velocity) => {
   }, 1000 / 60);
   return intervalId;
 }
-createCoordinatesContainer();
 /*
   _______________________________________________________________________________________________________________
   End ADDING Controls..
@@ -456,19 +460,11 @@ const onKeyUp = (event) => {
 function calculateDistance(obj1, obj2){
   return Math.sqrt( Math.pow((obj1.position.x - obj2.position.x), 2) + Math.pow((obj1.position.z - obj2.position.z), 2 ) );
 }
-
-function createCoordinatesContainer(){
-  const body = document.getElementById('body');
-  const div = document.createElement('div');
-  div.id = 'coordinates';
-  let DFromSun = Math.round(calculateDistance(sun.lightMarker, camera) * 6963.4) - sunRadius * 6963.4;
-  div.innerHTML = `DFromSun : ${DFromSun}KM \n Velocity: ${velocityKm}KMS`
-  body.appendChild(div);
-}
+const magnitudes = document.getElementById("magnitudes");
+const message = document.getElementById("message");
 function changeCoordinates(){
-  const div = document.getElementById('coordinates');
   let DFromSun = Math.round(calculateDistance(sun.lightMarker, camera) * 6963.4) - sunRadius * 6963.4;
-  div.innerHTML = `DFromSun : ${DFromSun}KM \n Velocity: ${velocityKm}KMS. PositionY: ${camera.position.y}`
+  magnitudes.innerHTML = `DFromSun : ${DFromSun}KM \n Velocity: ${velocityKm}KMS. PositionY: ${camera.position.y}`
 }
 
 /*

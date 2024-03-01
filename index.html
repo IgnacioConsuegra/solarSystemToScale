@@ -4,16 +4,33 @@
 <head>
   <meta charset="utf-8">
   <title>My first three.js app</title>
-  <style>
-    body {
-      margin: 0;
-    }
-  </style>
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<body id="body">
+<body>
+  <main class="main" id="main">
+    <h1>Welcome to the Scaled Solar System Model Project</h1>
+    <p>Welcome to our Scaled Solar System Model Project! Here, you'll embark on an immersive journey through our solar
+      system, where every planet is accurately represented in both size and distance. Using Three.js, we've created an
+      interactive experience that allows you to explore the cosmos like never before. Get ready to marvel at the wonders
+      of our celestial neighborhood. Let's begin our journey among the stars.
+    </p>
+    <div class="buttonContainer">
+      <button class="button" onclick="showCanvas()">Start</button>
+    </div>
+  </main>
+  <div id="canvas" class="canvas">
+    <div id="magnitudes">
+      <p id="velocity">Velocity</p>
+      <p id="distancS">Distance from sun</p>
+      <p id="timeNextPlanet">Time to next planet</p>
+    </div>
+    <div id="message">
+      <p>Your message here</p>
+    </div>
+  </div>
   <script type="module" src="/main.js"></script>
+  <script src="startButton.js"></script>
 </body>
 
 </html>

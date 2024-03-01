@@ -1,9 +1,102 @@
-#coordinates{
-  width: fit-content;
-  height: 20px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+body{
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
   color: white;
-  background-color: red;
+  font-size: 16px;
+  overflow: hidden;
+}
+main{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+}
+main > h1{
+  width: fit-content;
+  height: 100%;
+  margin: auto;
+}
+main p{
+  text-align: left;
+  height: 100%;
+  font-size: 1em;
+}
+.buttonContainer{
+  height: 100%;
+} 
+.button {
+  background-color: #04AA6D; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+  width: 10em;
+  height: 3em;
+  border-radius: 20px;
+  margin: 0 auto;
+  cursor: pointer;  
+  position: relative;
+}
+.button:hover{
+  box-shadow: 0px 0px 20px#04AA6D;;
+}
+
+@keyframes opaMain { 
+  from{
+    opacity: 1;
+  } to{
+    opacity: 0;
+  }
+}
+@keyframes opaCanvas { 
+  from{
+    opacity: 0;
+  } to{
+    opacity: 1;
+  }
+}
+
+.canvas{
+  width: 100%;
+  height: 100%;
+  display: none;
+  position: relative;
+  opacity: 0;
+}
+#magnitudes{
+  min-width: 30vw;
+  height: 22px;
+  position: absolute;
+  bottom: 0%;
+  left: 0%;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  background-color: grey;
+  border-top-right-radius: 25px;
+  padding: 1px 5px;
+}
+#message{
+  position: absolute;
+  width: 50vw;
+  height: 80vh;
+  left: calc(50% - 25vw);
+  top: calc(50% - 40vh);
+  background-color: none;
+  border: 1px solid white;
+  border-radius: 20px;
+  text-align: center;
+  line-height: 80vh;
+  display: none;
 }
