@@ -67,8 +67,10 @@ function createSun(x = 10, y = 10, z = 10, radius = 10, color = `FFFF00`, intens
   const lightMarkerGeometry = new THREE.SphereGeometry(radius, 50, 50);
   const lightMarkerMaterial = new THREE.MeshBasicMaterial({ color: color });
   const lightMarker = new THREE.Mesh(lightMarkerGeometry, lightMarkerMaterial);
+
   lightMarker.position.set(x, y, z);
   scene.add(lightMarker);
+
   return {pointLight, lightMarker};
 }
 function createSphere(x = 10, y = 10, z = 10, radius = 1, color = 0xff0000, isStandard = true){
@@ -209,7 +211,7 @@ let sunNeptuneRadius = toRealSize(4498396400);
 
 
 
-const sun = createSun(0, 100, 0, sunRadius, `FFFF00`, 100000, 300000);
+let sun = createSun(0, 100, 0, sunRadius, `FFFF00`, 100000, 300000);
 
 const mercury = createPlanet(0, 100, sunMercuryRadius,  mercuryRadius, `https://i.ibb.co/8BrvtGk/mercury.jpg`);
 const venus = createPlanet(0, 100, sunVenusRadius,  venusRadius, `https://i.ibb.co/TvJN8qP/venus.jpg`);
@@ -243,9 +245,9 @@ let arrow = createModelGlTF("assets/arrow/scene.gltf", "myArrow")
   .then(
     (arr) => {
       myArrow = arr;
-      myArrow.position.y = camera.position.y - 2;
-      myArrow.position.x = camera.position.x + 0;
-      myArrow.position.z = camera.position.z - 2;
+      myArrow.position.y = -200;
+      myArrow.position.x = -200;
+      myArrow.position.z = -200;
     },
   )
 //End creating fixed arrow
@@ -255,7 +257,7 @@ let arrow = createModelGlTF("assets/arrow/scene.gltf", "myArrow")
 //This values are used in our moon rotation.
 let angle = 0;
 const rotationSpeed = 0.0001;
-
+let showArrow = false;
 function animate() {
   // changeCoordinates();
   requestAnimationFrame(animate);
@@ -270,7 +272,7 @@ function animate() {
   // earth.position.z = sun.lightMarker.position.z + sunEarthRadius * Math.sin(angle);
   // // Increment angle next update. 
   // angle += rotationSpeed;
-  if(myArrow) updateFixedObject(myArrow);
+  if(myArrow && showArrow) updateFixedObject(myArrow);
   renderer.render(scene, camera);
 }
 
@@ -462,12 +464,19 @@ function calculateDistance(obj1, obj2){
 }
 const magnitudes = document.getElementById("magnitudes");
 const message = document.getElementById("message");
+const messageP = document.getElementById("messageP");
 function changeCoordinates(){
   let DFromSun = Math.round(calculateDistance(sun.lightMarker, camera) * 6963.4) - sunRadius * 6963.4;
   magnitudes.innerHTML = `DFromSun : ${DFromSun}KM \n Velocity: ${velocityKm}KMS. PositionY: ${camera.position.y}`
 }
+function changeMessage(text){
+  message.style.display = 'block';
+  messageP.innerHTML = text;
+}
+
 
 /*
+
   _______________________________________________________________________________________________________________
   End Coordinates container.
 */
@@ -495,5 +504,98 @@ document.addEventListener('pointerlockchange', () => {
   _______________________________________________________________________________________________________________
   End Adding event listener.
 */
+
+
+
+
+/*
+  Messages start.
+  _______________________________________________________________________________________________________________
+*/
+
+const startedInterval = setInterval(() => 
+{
+  const isCanvasDisplayed = document.getElementById('canvas');
+
+  if(isCanvasDisplayed.style.display = 'inline-block') {
+    clearInterval(startedInterval);
+    setTimeout(() => {
+      introSun(); 
+    }, 2 * 1000);
+  }
+}, 1 * 1000);
+
+function introSun(){
+  setTimeout(() => 
+  {
+    changeMessage( `This is our sun`);
+    setTimeout(() => 
+    {
+
+      changeMessage( `Maybe you thought it was something like this : `);
+
+      setTimeout(() => 
+      {
+
+        scene.remove(sun.lightMarker);
+        scene.remove(sun.pointLight);
+        sun = createSun(0, 100, 0, sunRadius, `#FFFF00`, 100000, 300000);
+        setTimeout(() => 
+        {
+          const myArr = Array(30);
+          let colorValue = 0;
+          changeMessage(`Our maybe something like this : `);
+          const myInterval = setInterval(() => 
+          {
+              scene.remove(sun.lightMarker)
+              scene.remove(sun.pointLight)
+              sun = createSun(0, 100, 0, sunRadius, `hsl(${colorValue}, 100%, 50%)`, 100000, 300000);
+              colorValue += 10;
+              console.log(colorValue)
+              if(colorValue >= 300) {
+                clearInterval(myInterval);
+                changeMessage(`But in really it's just a big white sphere`);
+                setTimeout(() => {
+                  scene.remove(sun.lightMarker)
+                  scene.remove(sun.pointLight)
+                  sun = createSun(0, 100, 0, sunRadius, '#ffffff', 100000, 300000);
+                  introArrow();
+                }, 1 * 1000);
+              }
+          }, 0.5 * 1000);
+        
+        }, 3 * 1000);
+
+      }, 2  * 1000);
+
+    }, 2 * 1000);
+
+  }, 7 * 1000);
+}
+
+function introArrow() {
+  setTimeout(() => 
+  {
+
+    changeMessage("Now, this is our arrow : ");
+    setTimeout(() => 
+    {
+      showArrow = true;
+    }, 1 * 1000);
+
+  }, 1 * 1000);
+}
+
+/*
+  Messages End.
+  _______________________________________________________________________________________________________________
+*/
+
+
+
+
+
+
+
 
 animate();
